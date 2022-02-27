@@ -1,0 +1,54 @@
+version: '3.7'
+
+
+services:
+  web:
+    image: nginx:alpine
+#    uncommented this line if you have apple silicon proc
+#    platform: linux/amd64
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/projectX
+      - ./app/nginxConf:/etc/nginx/conf.d
+    networks:
+      - nuts
+  php:
+    build: ./app/DockerFiles/php
+    volumes:
+      - ./:/projectX
+    expose:
+      - 9000
+    networks:
+      - nuts
+
+  mysql:
+    #    uncommented this line if you have apple silicon proc
+    #    platform: linux/amd64
+    image: mysql:5.7
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./app/db/mysql/data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+      - nuts
+
+
+  phpmyadmin:
+    #    uncommented this line if you have apple silicon proc
+    #    platform: linux/amd64
+    image: phpmyadmin/phpmyadmin:latest
+    ports:
+      - "8082:80"
+    environment:
+      - PMA_HOST=mysql
+      - PMA_USER=root
+      - PMA_PASSWORD=root
+    networks:
+      - nuts
+
+
+networks:
+  nuts:

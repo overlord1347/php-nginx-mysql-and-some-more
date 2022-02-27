@@ -1,0 +1,32 @@
+{
+  "name": "overlord1643/php_ngingx_mysql_and_some_more",
+  "version": "1.0.0",
+  "authors": [
+    {
+      "name": "Vladykin Ilya",
+      "email": "overlord1643@gmail.com"
+    }
+  ],
+
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  },
+
+  "require": {
+    "ext-json": "*",
+    "symfony/dotenv": "^5.3"
+  },
+  "require-dev": {
+    "symfony/var-dumper": "^5.4",
+    "friendsofphp/php-cs-fixer": "^2.13",
+    "squizlabs/php_codesniffer": "^3.6"
+  },
+  "scripts": {
+    "lint": [
+      "vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php",
+      "vendor/bin/phpcbf . -w --ignore=./vendor"
+    ]
+  }
+}

@@ -1,0 +1,4 @@
+.idea
+vendor
+app/db
+.php_cs.cache
