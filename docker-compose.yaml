@@ -35,6 +35,22 @@ services:
     networks:
       - nuts
 
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitMq
+    ports:
+      - "15671:15671"
+      - "15672:15672"
+      - "5672:5672"
+    environment:
+      RABBITMQ_ERLANG_COOKIE: "WHATISTHISCOOKIEANDWHY"
+      RABBITMQ_DEFAULT_USER: rabbitmq
+      RABBITMQ_DEFAULT_PASS: rabbitmqpass
+      RABBITMQ_DEFAULT_VHOST: "/"
+
+    networks:
+        nuts:
+
 
   phpmyadmin:
     #    uncommented this line if you have apple silicon proc
