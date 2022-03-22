@@ -15,6 +15,7 @@ services:
       - nuts
   php:
     build: ./app/DockerFiles/php
+    container_name: php_test
     volumes:
       - ./:/projectX
     expose:
