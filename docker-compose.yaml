@@ -11,8 +11,10 @@ services:
     volumes:
       - ./:/projectX
       - ./app/nginxConf:/etc/nginx/conf.d
-    networks:
-      - nuts
+    depends_on:
+      - php
+      - mysql
+
   php:
     build: ./app/DockerFiles/php
     container_name: php_test
@@ -33,8 +35,6 @@ services:
       - ./app/db/mysql/data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
-    networks:
-      - nuts
 
   rabbitmq:
     image: rabbitmq:3-management
@@ -49,9 +49,6 @@ services:
       RABBITMQ_DEFAULT_PASS: rabbitmqpass
       RABBITMQ_DEFAULT_VHOST: "/"
 
-    networks:
-        nuts:
-
 
   phpmyadmin:
     #    uncommented this line if you have apple silicon proc
@@ -63,9 +60,3 @@ services:
       - PMA_HOST=mysql
       - PMA_USER=root
       - PMA_PASSWORD=root
-    networks:
-      - nuts
-
-
-networks:
-  nuts:
