@@ -3,14 +3,16 @@ version: '3.7'
 
 services:
   web:
-    image: nginx:alpine
-#    uncommented this line if you have apple silicon proc
-#    platform: linux/amd64
+    build:
+      context: app/dockerFiles/nginx
+    #    uncommented this line if you have apple silicon proc
+    platform: linux/amd64
     ports:
       - "8080:80"
+    environment:
+      XDEBUG_CONFIG: remote_host=${HOST_IP:-host.docker.internal}
     volumes:
       - ./:/projectX
-      - ./app/nginxConf:/etc/nginx/conf.d
     depends_on:
       - php
       - mysql
@@ -20,14 +22,15 @@ services:
     container_name: php_test
     volumes:
       - ./:/projectX
+      - ./app/DockerFiles/php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+      - ./app/DockerFiles/php/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
     expose:
       - 9000
-    networks:
-      - nuts
+
 
   mysql:
     #    uncommented this line if you have apple silicon proc
-    #    platform: linux/amd64
+    platform: linux/amd64
     image: mysql:5.7
     ports:
       - '3306:3306'
@@ -52,7 +55,7 @@ services:
 
   phpmyadmin:
     #    uncommented this line if you have apple silicon proc
-    #    platform: linux/amd64
+    platform: linux/amd64
     image: phpmyadmin/phpmyadmin:latest
     ports:
       - "8082:80"

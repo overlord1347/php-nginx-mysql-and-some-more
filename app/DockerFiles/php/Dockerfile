@@ -20,8 +20,12 @@ RUN apt-get update && apt-get install -y \
 # Куда же без composer'а.
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+#Install xdebug
+RUN pecl install xdebug-3.1.4 && docker-php-ext-enable xdebug
+
 RUN docker-php-ext-install sockets
 
+WORKDIR /projectX
 
 # Добавим свой php.ini, можем в нем определять свои значения конфига
 ADD php.ini /usr/local/etc/php/conf.d/40-custom.ini
